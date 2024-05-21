@@ -1,5 +1,5 @@
 use chrono::{DateTime, Utc};
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub enum Status {
@@ -7,6 +7,8 @@ pub enum Status {
     InProgress,
     Done,
 }
+
+//TODO: set range for priority,
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Task {
