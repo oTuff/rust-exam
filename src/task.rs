@@ -8,8 +8,6 @@ pub enum Status {
     Done,
 }
 
-//TODO: set range for priority,
-
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct Task {
     pub id: usize,

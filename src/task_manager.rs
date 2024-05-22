@@ -16,7 +16,6 @@ impl TaskManager {
         }
     }
 
-    // CRUD Operations
     pub fn add_task(
         &mut self,
         title: String,
@@ -84,7 +83,6 @@ mod tests {
         assert_eq!(task.title, "Test Task");
         assert_eq!(task.description, "This is a test task");
         assert_eq!(task.priority, 1);
-        // assert_eq!(task.status, Status::Todo);
         assert_eq!(task.is_cancelled, false);
     }
 
@@ -131,7 +129,6 @@ mod tests {
         task_manager.update_task(1, Status::InProgress).unwrap();
         let task = &task_manager.tasks[0];
         assert_eq!(task.id, 1);
-        // assert_eq!(task.status, Status::InProgress);
     }
 
     #[test]

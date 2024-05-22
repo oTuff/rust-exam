@@ -88,7 +88,7 @@ async fn main() {
                 Status::Todo,
                 deadline,
             );
-            save_to_file(&task_manager, file_path).await.expect("Failed to save tasks");
+            save_to_file(&task_manager, file_path).await.expect("Failed to add task");
         }
         Some(("delete", sub_m)) => {
             let id = sub_m
@@ -97,7 +97,7 @@ async fn main() {
                 .parse::<usize>()
                 .unwrap();
             task_manager.remove_task(id);
-            save_to_file(&task_manager, file_path).await.expect("Failed to save tasks");
+            save_to_file(&task_manager, file_path).await.expect("Failed to delete task");
         }
         Some(("update", sub_m)) => {
             let id = sub_m
@@ -113,7 +113,7 @@ async fn main() {
                 _ => panic!("Invalid status"),
             };
             task_manager.update_task(id, status);
-            save_to_file(&task_manager, file_path).await.expect("Failed to save tasks");
+            save_to_file(&task_manager, file_path).await.expect("Failed to update task");
         }
         Some(("list", _)) => {
             for task in task_manager.list_tasks() {
@@ -123,7 +123,7 @@ async fn main() {
                 );
             }
         }
-        _ => unreachable!(), // Handles unmatched cases
+        _ => unreachable!(),
     }
 }
 
