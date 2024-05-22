@@ -37,11 +37,12 @@ impl TaskManager {
         self.tasks.push(task);
         self.next_id += 1;
     }
-
-    pub fn remove_task(&mut self, task_id: usize) -> bool {
-        let initial_len = self.tasks.len();
-        self.tasks.retain(|task| task.id != task_id);
-        initial_len != self.tasks.len()
+    pub fn remove_task(&mut self, id: usize) {
+        self.tasks.retain(|task| task.id != id);
+        for (new_id, task) in self.tasks.iter_mut().enumerate() {
+            task.id = new_id + 1;
+        }
+        self.next_id = self.tasks.len() + 1;
     }
 
     pub fn update_task(&mut self, task_id: usize, new_status: Status) -> Option<()> {

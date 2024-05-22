@@ -3,7 +3,8 @@ use chrono::{DateTime, Local, NaiveDate, TimeZone, Utc};
 use clap::{Arg, Command};
 use task_manager::{load_from_file, save_to_file, Status, Task, TaskManager};
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let app = Command::new("Task Manager")
         .version("1.0")
         .author("Christoffer Perch & Oscar Tuff")
@@ -66,7 +67,7 @@ fn main() {
     let matches = app.get_matches();
 
     let file_path = "tasks.json";
-    let mut task_manager = load_from_file(file_path).unwrap_or_else(|_| TaskManager::new());
+    let mut task_manager = load_from_file(file_path).await.unwrap_or_else(|_| TaskManager::new());
 
     match matches.subcommand() {
         Some(("add", sub_m)) => {
@@ -87,7 +88,7 @@ fn main() {
                 Status::Todo,
                 deadline,
             );
-            save_to_file(&task_manager, file_path).expect("Failed to save tasks");
+            save_to_file(&task_manager, file_path).await.expect("Failed to save tasks");
         }
         Some(("delete", sub_m)) => {
             let id = sub_m
@@ -96,7 +97,7 @@ fn main() {
                 .parse::<usize>()
                 .unwrap();
             task_manager.remove_task(id);
-            save_to_file(&task_manager, file_path).expect("Failed to save tasks");
+            save_to_file(&task_manager, file_path).await.expect("Failed to save tasks");
         }
         Some(("update", sub_m)) => {
             let id = sub_m
@@ -112,7 +113,7 @@ fn main() {
                 _ => panic!("Invalid status"),
             };
             task_manager.update_task(id, status);
-            save_to_file(&task_manager, file_path).expect("Failed to save tasks");
+            save_to_file(&task_manager, file_path).await.expect("Failed to save tasks");
         }
         Some(("list", _)) => {
             for task in task_manager.list_tasks() {
